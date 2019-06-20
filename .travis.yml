@@ -10,7 +10,7 @@ script:
 
 before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker build -t djagielo/agilla-service -f ./ci/Dockerfile
+  - docker build -t djagielo/agilla-service -f ./ci/Dockerfile .
 
 deploy:
   provider: script
