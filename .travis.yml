@@ -2,12 +2,18 @@ sudo: required
 services:
   - docker
 
-stages:
-  - name: init
-      - docker build -t djagielo/agilla-service -f ./ci/Dockerfile.dev .
-  - name: test
-      - docker run djagielo/agilla-service mvn clean test
-  - name: deploy
-    if: branch = master
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-      - docker build -t djagielo/agilla-service -f ./ci/Dockerfile
+before_install:
+  - docker build -t djagielo/agilla-service -f ./ci/Dockerfile.dev .
+
+script:
+  - docker run djagielo/agilla-service mvn clean test
+
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker build -t djagielo/agilla-service -f ./ci/Dockerfile
+
+deploy:
+  provider: script
+  script: docker push "djagielo/agilla-service:latest"
+  on:
+    branch: master
