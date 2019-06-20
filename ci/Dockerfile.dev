@@ -1,0 +1,4 @@
+FROM maven:3-jdk-12
+WORKDIR '/app'
+COPY . .
+CMD ["mvn", "clean", "spring-boot:run"]
