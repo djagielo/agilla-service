@@ -17,7 +17,7 @@ public class AgillaServiceApplication {
 	class TestController {
 		@GetMapping("/ping")
 		public String ping() {
-			return "pong";
+			return "pong " + System.currentTimeMillis();
 		}
 	}
 }
